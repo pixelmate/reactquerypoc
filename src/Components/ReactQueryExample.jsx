@@ -16,20 +16,37 @@ export default function App() {
 
 function FetchUsernames() {
   const { isLoading, error, data } = useQuery("repoData", () =>
-    axios.get("https://fakestoreapi.com/users").then((res) => res.data)
+    axios.get("https://dummyjson.com/users").then((res) => res.data)
   );
   console.log(data, "res");
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
-
+  console.log(data.users, "Users data");
   return (
-    <div>
-      <h2>All Username List</h2>
-      {data.map((user) => (
-        <div>{user.username}</div>
-      ))}
-      <ReactQueryDevtools initialIsOpen />
+    <div className="container">
+      <div className="row">
+        <h2>All Username List</h2>
+        {data.users.map((user) => (
+          // <div>{user.username}</div>
+
+          <div className="col-md-3">
+            <div className="card">
+              <img src={user.image} className="card-img-top" alt="..." />
+              <div className="card-body text-center">
+                <h5 className="card-title">
+                  {user.firstName}
+                  &nbsp;
+                  {user.lastName}
+                </h5>
+                <p className="card-text">{user.email}</p>
+                <p className="card-text">{user.phone}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+        <ReactQueryDevtools initialIsOpen />
+      </div>
     </div>
   );
 }
